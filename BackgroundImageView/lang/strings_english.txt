@@ -1,0 +1,7 @@
+<?php
+/* Configuration page */
+
+$s_plugin_BackgroundImageView_config_caption                = 'Configuration';
+$s_plugin_BackgroundImageView_show_plugin_info_footer       = 'Show plugin info in footer?';
+$s_plugin_BackgroundImageView_show_background               = 'Show the background?';
+$s_plugin_BackgroundImageView_background_image_access_level = 'Background image access level';
