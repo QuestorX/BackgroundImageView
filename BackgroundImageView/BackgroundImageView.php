@@ -8,11 +8,10 @@ class BackgroundImageViewPlugin extends MantisPlugin
       $this->description   = 'A special view to handle background images.';
       $this->page          = 'config';
 
-      $this->version       = '1.0';
+      $this->version       = '1.0.1';
       $this->requires      = array
       (
-         'MantisCore'   => '1.2.0',
-         'MantisCore'   => '1.3.0'
+         'MantisCore'   => '1.2.0, <= 1.3.1'
       );
 
       $this->author      = 'Rainer Dierck';
@@ -29,13 +28,25 @@ class BackgroundImageViewPlugin extends MantisPlugin
       return $hooks;
    }
 	
+   function init ()
+   {  // Get path to core folder
+      $t_core_path   =  config_get_global ('plugin_path')
+                     .  plugin_get_current ()
+                     .  DIRECTORY_SEPARATOR
+                     .  'core'
+                     .  DIRECTORY_SEPARATOR;
+      
+      // Include constants
+      require_once ($t_core_path . 'constant_api.php');
+   }
+   
 	function config() 
    {
 		return   array
                (
-                  'ShowInFooter'          => ON,
-                  'ShowBackgroundImage'   => ON,
-                  'ThresholdLevel'        => ADMINISTRATOR
+                  'ShowInFooter'                => ON,
+                  'ShowBackgroundImage'         => ON,
+                  'BackgroundImageAccessLevel'  => ADMINISTRATOR
                );
 	}
    
@@ -46,13 +57,13 @@ class BackgroundImageViewPlugin extends MantisPlugin
       $t_project_id  = helper_get_current_project ();
       $t_user_id     = auth_get_current_user_id ();
       
-      $t_user_has_upload_level = user_get_access_level ($t_user_id, $t_project_id) >= plugin_config_get ('ThresholdLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT);
+      $t_user_has_level = user_get_access_level ($t_user_id, $t_project_id) >= plugin_config_get ('BackgroundImageAccessLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT);
 
       if (  plugin_config_get( 'ShowInFooter' ) == 1
-         && $t_user_has_upload_level
+         && $t_user_has_level
          )
       {
-         return '<address>' . $this->name . ' '  . $this->version . ' by <a href="mailto://' . $this->contact . '">' . $this->author . '</a></address>';
+         return '<address>' . $this->name . ' '  . $this->version . ' Copyright &copy; 2015 by <a href="mailto://' . $this->contact . '">' . $this->author . '</a></address>';
       }
       return "";
    }
@@ -63,18 +74,18 @@ class BackgroundImageViewPlugin extends MantisPlugin
 
       $t_project_id = helper_get_current_project ();
       $t_user_id = auth_get_current_user_id ();
-      $t_user_has_upload_level = user_get_access_level ($t_user_id, $t_project_id) >= plugin_config_get ('ThresholdLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT);
+      $t_user_has_level = user_get_access_level ($t_user_id, $t_project_id) >= plugin_config_get ('BackgroundImageAccessLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT);
 
-      if (  plugin_config_get( 'ShowBackgroundImage' ) == 1
-         && $t_user_has_upload_level
+      if (  plugin_config_get ('ShowBackgroundImage') == gpc_get_int ('ShowBackgroundImage', ON)
+         && $t_user_has_level
          )
       {
          $sReturn .= '<style type="text/css">';
          $sReturn .= 'body {';
-         $sReturn .= 'background-image: url('.plugin_file( 'background.jpg' ).');';
-         $sReturn .= 'background-repeat:repeat-y;';
-         $sReturn .= 'background-size:cover;';
-         $sReturn .= 'background-attachment:fixed;';
+         $sReturn .= 'background-image: url(' . plugin_file ('background.jpg') . ') !important;';
+         $sReturn .= 'background-repeat:repeat-y !important;';
+         $sReturn .= 'background-size:cover !important;';
+         $sReturn .= 'background-attachment:fixed !important;';
          $sReturn .= '}';
          $sReturn .= '</style>';
       }			

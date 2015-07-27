@@ -1,5 +1,6 @@
 <?php
-require_once ('constant_api.php');
+// Load RelationshipColumnView configuration
+require_once (BACKGROUNDIMAGEVIEW_CORE_URI . 'constant_api.php');
 
 auth_reauthenticate ();
 access_ensure_global_level (config_get ('manage_plugin_threshold'));
@@ -52,8 +53,8 @@ print_manage_menu ();
     <span class="required">*</span><?php echo plugin_lang_get ('background_image_access_level'); ?>
   </td>
   <td width="200px">
-    <select name="background_image_access_level">
-      <?php print_enum_string_option_list ('access_levels', plugin_config_get ('ThresholdLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT)); ?>
+    <select name="BackgroundImageAccessLevel">
+      <?php print_enum_string_option_list ('access_levels', plugin_config_get ('BackgroundImageAccessLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT)); ?>
     </select>
   </td>
 </tr>
