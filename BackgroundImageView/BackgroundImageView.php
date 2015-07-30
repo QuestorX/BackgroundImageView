@@ -8,7 +8,7 @@ class BackgroundImageViewPlugin extends MantisPlugin
       $this->description   = 'A special view to handle background images.';
       $this->page          = 'config';
 
-      $this->version       = '1.0.1';
+      $this->version       = '1.0.2';
       $this->requires      = array
       (
          'MantisCore'   => '1.2.0, <= 1.3.1'
