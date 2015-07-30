@@ -80,14 +80,7 @@ class BackgroundImageViewPlugin extends MantisPlugin
          && $t_user_has_level
          )
       {
-         $sReturn .= '<style type="text/css">';
-         $sReturn .= 'body {';
-         $sReturn .= 'background-image: url(' . plugin_file ('background.jpg') . ') !important;';
-         $sReturn .= 'background-repeat:repeat-y !important;';
-         $sReturn .= 'background-size:cover !important;';
-         $sReturn .= 'background-attachment:fixed !important;';
-         $sReturn .= '}';
-         $sReturn .= '</style>';
+         echo '<link rel="stylesheet" href="' . BACKGROUNDIMAGEVIEW_PLUGIN_URL . 'css/BackgroundImageView.css">' . "\n";
       }			
       return $sReturn;
    }
