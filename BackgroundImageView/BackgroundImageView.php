@@ -8,7 +8,7 @@ class BackgroundImageViewPlugin extends MantisPlugin
       $this->description   = 'A special view to handle background images.';
       $this->page          = 'config';
 
-      $this->version       = '1.0.1';
+      $this->version       = '1.0.2';
       $this->requires      = array
       (
          'MantisCore'   => '1.2.0, <= 1.3.1'
@@ -65,23 +65,15 @@ class BackgroundImageViewPlugin extends MantisPlugin
       {
          return '<address>' . $this->name . ' '  . $this->version . ' Copyright &copy; 2015 by <a href="mailto://' . $this->contact . '">' . $this->author . '</a></address>';
       }
-      return "";
+      return null;
    }
 
 	function background ()
    {
-      $sReturn = "";
-
-      $t_project_id = helper_get_current_project ();
-      $t_user_id = auth_get_current_user_id ();
-      $t_user_has_level = user_get_access_level ($t_user_id, $t_project_id) >= plugin_config_get ('BackgroundImageAccessLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT);
-
-      if (  plugin_config_get ('ShowBackgroundImage') == gpc_get_int ('ShowBackgroundImage', ON)
-         && $t_user_has_level
-         )
-      {
+     if (  plugin_config_get ( 'ShowBackgroundImage' ) )
+     {
          echo '<link rel="stylesheet" href="' . BACKGROUNDIMAGEVIEW_PLUGIN_URL . 'css/BackgroundImageView.css">' . "\n";
-      }			
-      return $sReturn;
+     }			
+     return null;
    }
 }
