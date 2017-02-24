@@ -27,7 +27,7 @@ class BackgroundImageViewPlugin extends MantisPlugin
       );
       return $hooks;
    }
-	
+
    function init ()
    {  // Get path to core folder
       $t_core_path   =  config_get_global ('plugin_path')
@@ -40,18 +40,18 @@ class BackgroundImageViewPlugin extends MantisPlugin
       require_once ($t_core_path . 'constant_api.php');
    }
    
-	function config() 
+   function config() 
    {
-		return   array
+      return   array
                (
                   'ShowInFooter'                => ON,
                   'ShowBackgroundImage'         => ON,
                   'BackgroundImageAccessLevel'  => ADMINISTRATOR
                );
-	}
+   }
    
    // --- hooks ---------------------------------------------------------------
-	
+
    function footer ()
    {
       $t_project_id  = helper_get_current_project ();
@@ -68,12 +68,19 @@ class BackgroundImageViewPlugin extends MantisPlugin
       return null;
    }
 
-	function background ()
+   function background ()
    {
-     if (  plugin_config_get ( 'ShowBackgroundImage' ) )
-     {
+      $t_project_id  = helper_get_current_project ();
+      $t_user_id     = auth_get_current_user_id ();
+      
+      $t_user_has_level = user_get_access_level ($t_user_id, $t_project_id) >= plugin_config_get ('BackgroundImageAccessLevel', PLUGINS_BACKGROUNDIMAGEVIEW_THRESHOLD_LEVEL_DEFAULT);
+
+      if (  plugin_config_get ( 'ShowBackgroundImage' ) == 1
+         && $t_user_has_level
+         )
+      {
          echo '<link rel="stylesheet" href="' . BACKGROUNDIMAGEVIEW_PLUGIN_URL . 'css/BackgroundImageView.css">' . "\n";
-     }			
-     return null;
+      }
+      return null;
    }
 }
