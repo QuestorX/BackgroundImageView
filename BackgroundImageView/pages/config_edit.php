@@ -1,4 +1,5 @@
 <?php
+
 form_security_validate ('plugin_BackgroundImageView_config_edit');
 
 auth_reauthenticate ();

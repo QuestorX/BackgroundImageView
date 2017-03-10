@@ -1,4 +1,5 @@
-body
+body,
+.main-container
 {
 	background-image: url(../files/background.jpg) !important;
 	background-repeat:repeat-y !important;
